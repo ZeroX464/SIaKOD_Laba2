@@ -49,7 +49,7 @@ int enter_elem() {
 
 int find_elem(int arr[t], int elem) {
 	int hash = hash_func(elem);
-	if (arr[hash] == -1 || arr[hash] == -2) {
+	if (arr[hash] == -1) {
 		return -1;
 	}
 	else if (arr[hash] == elem) {
@@ -62,7 +62,7 @@ int find_elem(int arr[t], int elem) {
 		while (count < t) {
 			count += 1;
 			a = static_cast<int> (hash + pow(b, 2)) % t;
-			if (arr[a] == -1 || arr[hash] == -2) {
+			if (arr[a] == -1) {
 				return -1;
 			}
 			else if (arr[a] == elem) {
@@ -87,7 +87,6 @@ void delete_elem(int arr[t], int elem) {
 		arr[index] = -2;
 		printf("Удалён элемент %d с индексом %d\n", elem, index);
 	}
-	print_table(arr);
 }
 
 void add_elem(int arr[t], int elem) {
@@ -130,12 +129,27 @@ void add_elem(int arr[t], int elem) {
 		}
 
 		sum_count += count;
-		print_table(arr);
 	}
 }
 
 void replace_elem(int arr[t]) {
 	int elem = enter_elem();
+	int index = find_elem(arr, elem);
+	while (index == -1) {
+		cout << "Такого элемента нет в таблице\n";
+		elem = enter_elem();
+		index = find_elem(arr, elem);
+	}
+	delete_elem(arr, elem);
+	int newElem = enter_elem();
+	int newIndex = find_elem(arr, newElem);
+	while (newIndex != -1) {
+		cout << "Такой элемент уже есть в таблице\n";
+		newElem = enter_elem();
+		newIndex = find_elem(arr, newElem);
+	}
+	add_elem(arr, newElem);
+	/*
 	int index = find_elem(arr, elem);
 	if (index == -1) {
 		cout << "Элемента в таблице нет\n";
@@ -155,14 +169,17 @@ void replace_elem(int arr[t]) {
 		}
 		print_table(arr);
 	}
+	*/
 }
 
 int main() {
 	setlocale(LC_ALL, "Russian");
 	int arr[t];
-	int arrForTest[t];
+	int arrForTest[m];
 	for (int i = 0; i < t; i++) {
 		arr[i] = -1; // Начальное значение
+	}
+	for (int i = 0; i < m; i++) {
 		arrForTest[i] = -1;
 	}
 
@@ -175,7 +192,7 @@ int main() {
 			x = rand() % (end1 - start + 1) + start;
 			if (find(begin(arrForTest), end(arrForTest), x) == end(arrForTest)) { break; }
 		}
-		for (int p = 0; p < t; p++) {
+		for (int p = 0; p < m; p++) {
 			if (arrForTest[p] == -1) {
 				arrForTest[p] = x;
 				break;
@@ -222,14 +239,14 @@ int main() {
 	print_table(arr);
 
 	cout << "\nВыберите нужный вариант: \n1 - Найти элемент\n2 - Удалить элемент\n3 - Добавить новый элемент\n4 - Заменить элемент\n5 - Завершить работу программы\n";
-	int i = 0;
+	int key = 0;
 	while (true) {
-		cin >> i;
-		while (i < 1 || i > 5) {
+		cin >> key;
+		while (key < 1 || key > 5) {
 			cout << "Введённое значение некорректно\n";
-			cin >> i;
+			cin >> key;
 		}
-		switch (i) {
+		switch (key) {
 		case 1: {
 			int elem = enter_elem();
 			int index = find_elem(arr, elem);
@@ -241,6 +258,7 @@ int main() {
 		case 2: {
 			int elem = enter_elem();
 			delete_elem(arr, elem);
+			print_table(arr);
 			break;
 		}
 		case 3: {
@@ -261,10 +279,12 @@ int main() {
 				break;
 			}
 			add_elem(arr, elem);
+			print_table(arr);
 			break;
 		}
 		case 4:
 			replace_elem(arr);
+			print_table(arr);
 			break;
 		case 5:
 			return 0;
