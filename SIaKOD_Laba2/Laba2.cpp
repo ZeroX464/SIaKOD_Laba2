@@ -149,27 +149,6 @@ void replace_elem(int arr[t]) {
 		newIndex = find_elem(arr, newElem);
 	}
 	add_elem(arr, newElem);
-	/*
-	int index = find_elem(arr, elem);
-	if (index == -1) {
-		cout << "Элемента в таблице нет\n";
-	}
-	else if (index == -2) { printf("Превышено максимальное количество итераций (%d)\n", t); }
-	else {
-		delete_elem(arr, elem);
-		int newElem = enter_elem();
-		int newIndex = find_elem(arr, newElem);
-		if (newIndex == -1) {
-			arr[index] = newElem;
-			printf("Элемент %d добавлен в таблицу по индексу %d\n", newElem, index);
-		}
-		else if (newIndex == -2) { printf("Превышено максимальное количество итераций (%d)\n", t); }
-		else {
-			cout << "Элемент уже есть в таблице\n";
-		}
-		print_table(arr);
-	}
-	*/
 }
 
 int main() {
