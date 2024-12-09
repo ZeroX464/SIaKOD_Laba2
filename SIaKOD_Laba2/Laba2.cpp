@@ -70,18 +70,20 @@ int find_elem(int arr[t], int elem) {
 			}
 			b += 1;
 		}
-		if (count == t) { // Линейное опробывание
-			a = hash;
-			b = 1;
-			while (true) {
-				count += 1;
-				a = (hash + b) % t;
-				if (arr[a] == -1) {
-					return -1;
-				}
+		// Линейное опробывание
+		a = hash;
+		b = 1;
+		while (count < 2*t) {
+			count += 1;
+			a = (hash + b) % t;
+			if (arr[a] == -1) {
+				return -1;
 			}
-			return -2;
+			else if (arr[a] == elem) {
+				return a;
+			}
 		}
+		return -2;
 	}
 }
 
