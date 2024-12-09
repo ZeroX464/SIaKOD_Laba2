@@ -59,7 +59,7 @@ int find_elem(int arr[t], int elem) {
 		int a = 0;
 		int b = 1;
 		int count = 0;
-		while (count < t) {
+		while (count < t) { // Квадратичное опробывание
 			count += 1;
 			a = static_cast<int> (hash + pow(b, 2)) % t;
 			if (arr[a] == -1) {
@@ -70,7 +70,16 @@ int find_elem(int arr[t], int elem) {
 			}
 			b += 1;
 		}
-		if (count == t) {
+		if (count == t) { // Линейное опробывание
+			a = hash;
+			b = 1;
+			while (true) {
+				count += 1;
+				a = (hash + b) % t;
+				if (arr[a] == -1) {
+					return -1;
+				}
+			}
 			return -2;
 		}
 	}
@@ -85,7 +94,7 @@ void delete_elem(int arr[t], int elem) {
 	else {
 		int elem = arr[index];
 		arr[index] = -2;
-		printf("Удалён элемент %d с индексом %d\n", elem, index);
+		printf("Удалён элемент %d по индексу %d\n", elem, index);
 	}
 }
 
@@ -231,7 +240,7 @@ int main() {
 			int index = find_elem(arr, elem);
 			if (index == -1) { cout << "Элемента в таблице нет\n"; }
 			else if (index == -2) { printf("Превышено максимальное количество итераций (%d)\n", t); }
-			else { printf("Найден элемент %d с индексом %d\n", arr[index], index); }
+			else { printf("Найден элемент %d по индексу %d\n", arr[index], index); }
 			break;
 		}
 		case 2: {
